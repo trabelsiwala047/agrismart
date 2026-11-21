@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "84224965537",
+    "project_id": "agrismart-2acc9",
+    "storage_bucket": "agrismart-2acc9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84224965537:android:137e70e19a9cabf705e9e0",
+        "android_client_info": {
+          "package_name": "com.example.agrismart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84224965537-46tblj0ksm5fug2dmpd2vlmsidvokecl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3DkN3vn0AUXKnmDKYw7wLBnrnOLs7EtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84224965537-46tblj0ksm5fug2dmpd2vlmsidvokecl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84224965537:android:206b450f7bcddbcb05e9e0",
+        "android_client_info": {
+          "package_name": "com.iset.agrismart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84224965537-p7uiegpad9td0eiao0dmndfk3084apqc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iset.agrismart",
+            "certificate_hash": "0e42e373c81541b048a767d4cf78c3f8bad8791c"
+          }
+        },
+        {
+          "client_id": "84224965537-46tblj0ksm5fug2dmpd2vlmsidvokecl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3DkN3vn0AUXKnmDKYw7wLBnrnOLs7EtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84224965537-46tblj0ksm5fug2dmpd2vlmsidvokecl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
