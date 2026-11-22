@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
+import 'face_login_page.dart';
 import 'inscription_page.dart';
 import 'reinitialisation_page.dart';
 
@@ -138,9 +138,7 @@ class _ConnexionPageState extends State<ConnexionPage> {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: auth.chargement
-                            ? null
-                            : _seConnecter,
+                        onPressed: auth.chargement ? null : _seConnecter,
                         child: auth.chargement
                             ? const CircularProgressIndicator()
                             : const Text('Se connecter'),
@@ -151,13 +149,32 @@ class _ConnexionPageState extends State<ConnexionPage> {
 
                 const SizedBox(height: 10),
 
+                // NOUVEAU : connexion par visage
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const FaceLoginPage(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.face),
+                    label: const Text('Se connecter par visage'),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
                 TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) =>
-                        const ReinitialisationPage(),
+                        builder: (_) => const ReinitialisationPage(),
                       ),
                     );
                   },
