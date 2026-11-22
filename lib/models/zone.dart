@@ -1,4 +1,3 @@
-
 class Zone {
   final String nom;
   final String culture;
@@ -7,15 +6,35 @@ class Zone {
   bool vanneOuverte;
 
   Zone(
-      this.nom,
-      this.culture,
-      this.humidite,
-      this.seuil, {
-        this.vanneOuverte = false,
-      });
+    this.nom,
+    this.culture,
+    this.humidite,
+    this.seuil, {
+    this.vanneOuverte = false,
+  });
 
   // Vrai si l'humidité est sous le seuil
   bool get besoinIrrigation => humidite < seuil;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'nom': nom,
+      'culture': culture,
+      'humidite': humidite,
+      'seuil': seuil,
+      'vanneOuverte': vanneOuverte,
+    };
+  }
+
+  factory Zone.fromJson(Map<String, dynamic> json) {
+    return Zone(
+      json['nom'] as String,
+      json['culture'] as String,
+      (json['humidite'] as num).toDouble(),
+      (json['seuil'] as num).toDouble(),
+      vanneOuverte: json['vanneOuverte'] as bool? ?? false,
+    );
+  }
 }
 
 // Humidité moyenne d'une liste de zones (0 si la liste est vide)
