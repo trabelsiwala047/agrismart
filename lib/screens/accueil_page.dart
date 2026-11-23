@@ -7,6 +7,7 @@ import 'package:agrismart/widgets/fiche_exploitation.dart';
 import 'package:agrismart/widgets/resume_exploitation.dart';
 import 'package:agrismart/widgets/zone_card.dart';
 import 'package:agrismart/screens/translation_screen.dart';
+import 'package:agrismart/screens/scan_screen.dart'; // NOUVEAU : scan
 
 class AccueilPage extends StatefulWidget {
   const AccueilPage({super.key});
@@ -71,12 +72,39 @@ class _AccueilPageState extends State<AccueilPage> {
     );
   }
 
-  // NOUVEAU : ouvre l'écran de traduction
+  // Ouvre l'écran de traduction
   void _ouvrirTraduction() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const TranslationScreen()),
     );
+  }
+
+  // NOUVEAU : scanne un QR code (contenu = nom de la zone) et ouvre la zone
+  Future<void> _scannerZone() async {
+    final code = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (_) => const ScanScreen()),
+    );
+    if (code == null || !mounted) return;
+
+    final texte = code.trim().toLowerCase();
+    Zone? trouvee;
+    for (final z in _zones) {
+      if (z.nom.trim().toLowerCase() == texte) {
+        trouvee = z;
+        break;
+      }
+    }
+
+    if (trouvee == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Aucune zone trouvée pour : $code')),
+      );
+      return;
+    }
+
+    _ouvrirDetail(trouvee);
   }
 
   Future<void> _confirmerSuppression(Zone zone) async {
@@ -113,10 +141,15 @@ class _AccueilPageState extends State<AccueilPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('AgriSmart'),
+        title: const Text('AgriSmart TEST'),
         centerTitle: true,
-        // NOUVEAU : bouton traduction
         actions: [
+          // NOUVEAU : bouton scan
+          IconButton(
+            icon: const Icon(Icons.qr_code_scanner),
+            tooltip: 'Scanner une zone',
+            onPressed: _scannerZone,
+          ),
           IconButton(
             icon: const Icon(Icons.translate),
             tooltip: 'Traduction',

@@ -8,7 +8,7 @@ import 'package:agrismart/providers/auth_provider.dart';
 import 'package:agrismart/providers/reglages_provider.dart';
 import 'package:agrismart/providers/zones_provider.dart';
 import 'package:agrismart/providers/meteo_provider.dart';
-import 'package:agrismart/providers/translation_provider.dart'; // jdid
+import 'package:agrismart/providers/translation_provider.dart';
 import 'package:agrismart/services/firebase_auth_service.dart';
 import 'package:agrismart/app.dart';
 
@@ -34,7 +34,7 @@ Future<void> main() async {
               ZonesProvider(prefs, context.read<AuthProvider>()),
         ),
         ChangeNotifierProvider(create: (_) => MeteoProvider(prefs)..charger()),
-        ChangeNotifierProvider(create: (_) => TranslationProvider()), // jdid
+        ChangeNotifierProvider(create: (_) => TranslationProvider()),
       ],
       child: const MyApp(),
     ),

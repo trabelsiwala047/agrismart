@@ -7,6 +7,7 @@ import 'package:agrismart/screens/zone_form_page.dart';
 import 'package:agrismart/widgets/resume_exploitation.dart';
 import 'package:agrismart/widgets/zone_card.dart';
 import 'package:agrismart/screens/translation_screen.dart';
+import 'package:agrismart/screens/scan_screen.dart'; // NOUVEAU : scan
 
 class ZonesPage extends StatelessWidget {
   const ZonesPage({super.key});
@@ -49,6 +50,32 @@ class ZonesPage extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (_) => const TranslationScreen()),
     );
+  }
+
+  // NOUVEAU : scanne un QR code (contenu = nom de la zone) et ouvre la zone
+  Future<void> _scannerZone(BuildContext context) async {
+    final code = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (_) => const ScanScreen()),
+    );
+    if (code == null || !context.mounted) return;
+
+    final texte = code.trim().toLowerCase();
+    final provider = context.read<ZonesProvider>();
+    Zone? trouvee;
+    for (final z in provider.zones) {
+      if (z.nom.trim().toLowerCase() == texte) {
+        trouvee = z;
+        break;
+      }
+    }
+
+    if (trouvee == null) {
+      _message(context, 'Aucune zone trouvée pour : $code');
+      return;
+    }
+
+    _ouvrirDetail(context, trouvee);
   }
 
   Future<void> _confirmerSuppression(BuildContext context, Zone zone) async {
@@ -97,6 +124,12 @@ class ZonesPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('AgriSmart'),
         actions: [
+          // NOUVEAU : bouton scan
+          IconButton(
+            tooltip: 'Scanner une zone',
+            icon: const Icon(Icons.qr_code_scanner),
+            onPressed: () => _scannerZone(context),
+          ),
           // NOUVEAU : bouton traduction
           IconButton(
             tooltip: 'Traduction',
