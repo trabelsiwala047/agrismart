@@ -6,6 +6,7 @@ import 'package:agrismart/screens/zone_detail_page.dart';
 import 'package:agrismart/screens/zone_form_page.dart';
 import 'package:agrismart/widgets/resume_exploitation.dart';
 import 'package:agrismart/widgets/zone_card.dart';
+import 'package:agrismart/screens/translation_screen.dart';
 
 class ZonesPage extends StatelessWidget {
   const ZonesPage({super.key});
@@ -40,6 +41,14 @@ class ZonesPage extends StatelessWidget {
     if (modifiee == null || !context.mounted) return;
     context.read<ZonesProvider>().remplacer(zone, modifiee);
     _message(context, 'Zone modifiée');
+  }
+
+  // NOUVEAU : ouvre l'écran de traduction
+  void _ouvrirTraduction(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const TranslationScreen()),
+    );
   }
 
   Future<void> _confirmerSuppression(BuildContext context, Zone zone) async {
@@ -80,14 +89,20 @@ class ZonesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // watch : on affiche des données
     final provider = context.watch<ZonesProvider>();
-    final toutes = provider.zones;           // pour le bandeau (toutes les zones)
-    final zones = provider.zonesAffichees;   // pour la liste (filtrée ou non)
+    final toutes = provider.zones; // pour le bandeau (toutes les zones)
+    final zones = provider.zonesAffichees; // pour la liste (filtrée ou non)
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('AgriSmart'),
         actions: [
+          // NOUVEAU : bouton traduction
+          IconButton(
+            tooltip: 'Traduction',
+            icon: const Icon(Icons.translate),
+            onPressed: () => _ouvrirTraduction(context),
+          ),
           // Exercice 1 : filtre (read dans onPressed)
           IconButton(
             tooltip: 'Zones à irriguer',

@@ -6,6 +6,7 @@ import 'package:agrismart/screens/zone_form_page.dart';
 import 'package:agrismart/widgets/fiche_exploitation.dart';
 import 'package:agrismart/widgets/resume_exploitation.dart';
 import 'package:agrismart/widgets/zone_card.dart';
+import 'package:agrismart/screens/translation_screen.dart';
 
 class AccueilPage extends StatefulWidget {
   const AccueilPage({super.key});
@@ -28,12 +29,11 @@ class _AccueilPageState extends State<AccueilPage> {
       zone: zone,
       onAugmenter: () => _modifierHumidite(zone, 5),
       onDiminuer: () => _modifierHumidite(zone, -5),
-      onTap: () => _ouvrirDetail(zone),          // CHANGE : ouvre la fiche
+      onTap: () => _ouvrirDetail(zone),
       onLongPress: () => _confirmerSuppression(zone),
     );
   }
 
-  // CHANGE : le formulaire est un ecran, uniquement pour l'ajout
   Future<void> _ouvrirFormulaire() async {
     final nouvelle = await Navigator.push<Zone>(
       context,
@@ -50,7 +50,6 @@ class _AccueilPageState extends State<AccueilPage> {
     );
   }
 
-  // NOUVEAU : ouvre la fiche de la zone
   Future<void> _ouvrirDetail(Zone zone) async {
     final modifiee = await Navigator.push<Zone>(
       context,
@@ -69,6 +68,14 @@ class _AccueilPageState extends State<AccueilPage> {
     });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Zone modifiée avec succès')),
+    );
+  }
+
+  // NOUVEAU : ouvre l'écran de traduction
+  void _ouvrirTraduction() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const TranslationScreen()),
     );
   }
 
@@ -108,6 +115,14 @@ class _AccueilPageState extends State<AccueilPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('AgriSmart'),
         centerTitle: true,
+        // NOUVEAU : bouton traduction
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.translate),
+            tooltip: 'Traduction',
+            onPressed: _ouvrirTraduction,
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -126,7 +141,8 @@ class _AccueilPageState extends State<AccueilPage> {
                       childAspectRatio: 2.8,
                     ),
                     itemCount: _zones.length,
-                    itemBuilder: (context, index) => _carte(_zones[index]),
+                    itemBuilder: (context, index) =>
+                        _carte(_zones[index]),
                   );
                 }
                 return ListView.separated(
