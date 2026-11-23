@@ -1,9 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agrismart/providers/zones_provider.dart';
 import 'package:agrismart/screens/profil_page.dart';
 import 'package:agrismart/screens/statistiques_page.dart';
 import 'package:agrismart/screens/zones_page.dart';
+import 'package:agrismart/screens/irrigation_planner_page.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
@@ -11,26 +13,31 @@ class AppShell extends StatefulWidget {
   @override
   State<AppShell> createState() => _AppShellState();
 }
+
 class _AppShellState extends State<AppShell> {
   int _onglet = 0;
 
   @override
   Widget build(BuildContext context) {
-    // select : on ne reconstruit la barre que si CE nombre change
-    final n = context.select<ZonesProvider, int>((p) => p.nombreAIrriguer);
+    final n = context.select<ZonesProvider, int>(
+          (p) => p.nombreAIrriguer,
+    );
 
     return Scaffold(
       body: IndexedStack(
         index: _onglet,
         children: const [
           ZonesPage(),
+          IrrigationPlannerPage(),
           StatistiquesPage(),
           ProfilPage(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _onglet,
-        onDestinationSelected: (index) => setState(() => _onglet = index),
+        onDestinationSelected: (index) {
+          setState(() => _onglet = index);
+        },
         destinations: [
           NavigationDestination(
             icon: Badge(
@@ -44,6 +51,11 @@ class _AppShellState extends State<AppShell> {
               child: const Icon(Icons.grass),
             ),
             label: 'Zones',
+          ),
+          const NavigationDestination(
+            icon: Icon(Icons.water_drop_outlined),
+            selectedIcon: Icon(Icons.water_drop),
+            label: 'Planner',
           ),
           const NavigationDestination(
             icon: Icon(Icons.bar_chart_outlined),

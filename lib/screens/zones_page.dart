@@ -4,10 +4,12 @@ import 'package:agrismart/models/zone.dart';
 import 'package:agrismart/providers/zones_provider.dart';
 import 'package:agrismart/screens/zone_detail_page.dart';
 import 'package:agrismart/screens/zone_form_page.dart';
+import 'package:agrismart/widgets/fiche_exploitation.dart';
 import 'package:agrismart/widgets/resume_exploitation.dart';
 import 'package:agrismart/widgets/zone_card.dart';
 import 'package:agrismart/screens/translation_screen.dart';
-import 'package:agrismart/screens/scan_screen.dart'; // NOUVEAU : scan
+import 'package:agrismart/screens/scan_screen.dart';
+import 'package:agrismart/screens/irrigation_map_page.dart';
 
 class ZonesPage extends StatelessWidget {
   const ZonesPage({super.key});
@@ -49,6 +51,14 @@ class ZonesPage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const TranslationScreen()),
+    );
+  }
+
+  // NOUVEAU : ouvre la carte agricole
+  void _ouvrirCarte(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const IrrigationMapPage()),
     );
   }
 
@@ -124,6 +134,12 @@ class ZonesPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('AgriSmart'),
         actions: [
+          // NOUVEAU : bouton carte
+          IconButton(
+            tooltip: 'Carte agricole',
+            icon: const Icon(Icons.map),
+            onPressed: () => _ouvrirCarte(context),
+          ),
           // NOUVEAU : bouton scan
           IconButton(
             tooltip: 'Scanner une zone',
@@ -150,7 +166,7 @@ class ZonesPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // le bandeau qui avait disparu
+          FicheExploitation(humiditeMoyenne: provider.humiditeMoyenne),
           ResumeExploitation(zones: toutes),
           Expanded(
             child: zones.isEmpty
